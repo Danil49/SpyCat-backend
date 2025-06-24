@@ -14,7 +14,7 @@ class Cat(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     years_of_experience: Mapped[int] = mapped_column(nullable=False)
-    specialization: Mapped[str] = mapped_column(String(100), nullable=False)
+    breed: Mapped[str] = mapped_column(String(100), nullable=False)
     salary: Mapped[float] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), onupdate=func.now())

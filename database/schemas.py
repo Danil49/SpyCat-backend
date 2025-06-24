@@ -6,7 +6,7 @@ from datetime import datetime
 class CatBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=255)
     years_of_experience: int = Field(..., ge=0)
-    specialization: str = Field(..., min_length=1, max_length=100)
+    breed: str = Field(..., min_length=1, max_length=100)
     salary: float = Field(..., gt=0)
 
 
