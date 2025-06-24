@@ -2,3 +2,7 @@ fastapi~=0.115.13
 alembic
 coloredlogs~=15.0.1
 python-dotenv==1.1.0
+SQLAlchemy~=2.0.31
+psycopg2-binary
+asyncpg
+pydantic==2.8.2
