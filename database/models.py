@@ -1,19 +1,23 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, Text, ForeignKey, DateTime, CheckConstraint
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 from database.session import Base
+from sqlalchemy import Integer, String, Float, DateTime, func
+from datetime import datetime
+from typing import Optional
 
 
 class Cat(Base):
     __tablename__ = "cats"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), nullable=False)
-    years_of_experience = Column(Integer, nullable=False)
-    specialization = Column(String(100), nullable=False)
-    salary = Column(Float, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    years_of_experience: Mapped[int] = mapped_column(nullable=False)
+    specialization: Mapped[str] = mapped_column(String(100), nullable=False)
+    salary: Mapped[float] = mapped_column(nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), onupdate=func.now())
 
     # Relationship to missions one-to-one
     mission = relationship("Mission", back_populates="cat", uselist=False)
@@ -28,11 +32,11 @@ class Cat(Base):
 class Mission(Base):
     __tablename__ = "missions"
 
-    id = Column(Integer, primary_key=True, index=True)
-    cat_id = Column(Integer, ForeignKey("cats.id"), nullable=True, unique=True)
-    complete = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    cat_id: Mapped[Optional[int]] = mapped_column(ForeignKey("cats.id"), nullable=True, unique=True)
+    complete: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), onupdate=func.now())
 
     # Relationships
     cat = relationship("Cat", back_populates="mission")
@@ -42,14 +46,14 @@ class Mission(Base):
 class Target(Base):
     __tablename__ = "targets"
 
-    id = Column(Integer, primary_key=True, index=True)
-    mission_id = Column(Integer, ForeignKey("missions.id"), nullable=False)
-    name = Column(String(255), nullable=False)
-    country = Column(String(100), nullable=False)
-    notes = Column(Text, default="")
-    complete = Column(Boolean, default=False, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    mission_id: Mapped[int] = mapped_column(ForeignKey("missions.id"), nullable=False)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    country: Mapped[str] = mapped_column(String(100), nullable=False)
+    notes: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    complete: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), onupdate=func.now())
 
     # Relationship
-    mission = relationship("Missions", back_populates="targets")
+    mission = relationship("Mission", back_populates="targets")
