@@ -7,7 +7,7 @@ from database.schemas import CatCreate, CatUpdate, CatResponse, ErrorResponse
 from database.dals import CatDAL
 from api.helper import validate_breed_cached, get_cached_breeds
 
-router = APIRouter()
+router = APIRouter(prefix='/cats', tags=['Cats'])
 
 @router.post("/", response_model=CatResponse, status_code=status.HTTP_201_CREATED)
 async def create_cat(
