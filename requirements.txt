@@ -1,3 +1,4 @@
 fastapi~=0.115.13
+alembic
 coloredlogs~=15.0.1
 python-dotenv==1.1.0
